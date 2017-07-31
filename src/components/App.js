@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 //Components
-import PlacesList from './PlacesList';
+import MeetingList from './MeetingList';
 
 // Styles
 import '../Vendors.css';
@@ -13,7 +13,7 @@ class App extends Component {
       <div className="app">
         <div className="container">
           <h1 className="app-title">Find the best meeting time</h1>
-          <PlacesList />
+          <MeetingList />
         </div>
       </div>
     );
