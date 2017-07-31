@@ -6,14 +6,14 @@ const initialState = [
     {
         id: 1,
         placeholder: 'Type the city 1',
-        name: '',
+        place: null,
         date: Date,
         dateMoment: Date
     },
     {
         id: 2,
         placeholder: 'Type the city 2',
-        name: '',
+        place: null,
         date: Date,
         dateMoment: Date
     }
@@ -26,11 +26,12 @@ export default function(state = initialState, action) {
         case CHANGE_PLACE:
             var meetings = state.map(function(meeting){
                 if (meeting.id === action.payload.id) {
-                    meeting.date = 'mudou!';
+                    meeting.place = action.payload.place;
                 }
 
                 return meeting;
             });
+            
             return meetings;
         case CHANGE_DATE:
             return state;

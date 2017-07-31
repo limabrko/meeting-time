@@ -1,7 +1,5 @@
 /* global google */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { changePlace } from '../actions/index';
 
 class Place extends Component {
     constructor(props) {
@@ -33,17 +31,14 @@ class Place extends Component {
     }
 
     render() {
-        const { id, placeholder } = this.props.data;
+        const { placeholder } = this.props.data;
 
         return (
             <input
                 ref={(input) => { this.textInput = input; }}
-                id={`place_${id}`}
                 placeholder={placeholder}
                 className="form-control"
                 type="text"
-                //value={name}
-                //onChange={this.onInputChange}
                 onBlur={this.verifyPlace}
                 onFocus={this.onPlaceFocus}
             />
@@ -51,4 +46,4 @@ class Place extends Component {
     }
 }
 
-export default connect(null, { changePlace })(Place);
+export default Place;

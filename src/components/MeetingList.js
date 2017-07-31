@@ -1,36 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Place from './Place';
-import Date from './Date';
+import Meeting from './Meeting';
+import { changePlace, changeDate } from '../actions/index';
 
 class MeetingList extends Component {
-    renderPlace(placeData) {
-        return (
-            <li className="form-inline" key={placeData.id}>
-                <div className="form-group">
-                    <label htmlFor={`place_${placeData.id}`}>City: </label>
-                    <Place data={placeData} />
-                </div>
-                <div className="form-group">
-                    <Date data={placeData}/>
-                </div>
-            </li>
-        );
+    renderMeeting(meetingData) {
+        return <Meeting 
+                    key={meetingData.id} 
+                    meetingData={meetingData} 
+                    changePlace={this.props.changePlace} 
+                    changeDate={this.props.changeDate} />;
     }
 
     render() {
         return (
             <div>
                 <ul>
-                    {this.props.places.map(this.renderPlace)}
+                    {this.props.meetings.map(this.renderMeeting.bind(this))}
                 </ul>
             </div>
         );
     }
 }
 
-function mapStateToProps({ places }) {
-    return { places };
+function mapStateToProps({ meetings }) {
+    return { meetings };
 }
 
-export default connect(mapStateToProps)(MeetingList);
+export default connect(mapStateToProps, { changePlace, changeDate })(MeetingList);

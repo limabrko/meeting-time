@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
-import PlacesReducer from "../reducers/meetings";
+import MeetingsReducer from "../reducers/meetings";
 
 const logger = createLogger();
 const rootReducer = combineReducers({
-  places: PlacesReducer
+  meetings: MeetingsReducer
 });
 
 const initialState = {};
