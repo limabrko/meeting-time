@@ -3,10 +3,6 @@ import Place from './Place';
 import Date from './Date';
 
 class Meeting extends Component {
-    constructor(props) {
-        super(props);
-    }
-    
     render() {
         return (
             <li className="form-inline">
@@ -14,7 +10,7 @@ class Meeting extends Component {
                     <Place data={this.props.meetingData} changePlace={this.props.changePlace} />
                 </div>
                 <div className="form-group">
-                    <Date data={this.props.meetingData} changeDate={this.props.changeDate}/>
+                    <Date data={this.props.meetingData} changeTime={this.props.changeTime}/>
                 </div>
             </li>
         );

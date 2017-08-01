@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { changeDate } from '../actions/index';
 import InputMoment from 'input-moment';
 
 class Date extends Component {
@@ -10,33 +9,34 @@ class Date extends Component {
         this.onSave = this.onSave.bind(this);
         this.onClick = this.onClick.bind(this);
         this.state = {
-            date: null,
+            time: null,
             datepickerShow: false
         };
     }
 
-    onChange(dateMoment) {
-        this.setState({ date: dateMoment });
+    onChange(time) {
+        this.setState({ time });
     }
 
-    onSave(event) {
+    onSave() {
         this.setState({datepickerShow: false});
+        this.props.changeTime(this.props.data, this.state.time);
     }
 
     onClick(event) {
         this.setState({
-            date: this.props.data.dateMoment,
+            time: this.props.data.localTime,
             datepickerShow: true
         });
     }
 
-    renderCalendar() {
+    renderCalendar() { 
         if (!this.state.datepickerShow) {
-            return '';
+            return null;
         }
 
         return <InputMoment
-                    moment={this.state.date}
+                    moment={this.state.time}
                     onChange={this.onChange}
                     onSave={this.onSave}
                     prevMonthIcon="ion-ios-arrow-left" // default
@@ -49,14 +49,14 @@ class Date extends Component {
             return null;
         }
 
-        const dateFormatted = this.props.data.date.format();
+        const timeFormatted = this.props.data.localTime.format();
 
         return (
             <div>
                 <input 
                     type="text"
                     className="form-control" 
-                    value={dateFormatted} 
+                    value={timeFormatted} 
                     onClick={this.onClick}
                     readOnly/>
 

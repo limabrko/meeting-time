@@ -14,11 +14,10 @@ class Place extends Component {
         const autocomplete = new google.maps.places.Autocomplete(this.textInput);
 
         autocomplete.addListener('place_changed', function () {
-            const { id } = self.props.data;
             const place = autocomplete.getPlace();
 
             self.setState({place});
-            self.props.changePlace(id, place);
+            self.props.changePlace(self.props.data, place);
         });
     }
 
