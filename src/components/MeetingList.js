@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Meeting from './Meeting';
-import { changePlace, changeTime } from '../actions/index';
+import { changePlace, changeTime, changeTimezone } from '../actions/index';
 
 class MeetingList extends Component {
     renderMeeting(meetingData) {
@@ -9,7 +9,9 @@ class MeetingList extends Component {
                     key={meetingData.id} 
                     meetingData={meetingData} 
                     changePlace={this.props.changePlace} 
-                    changeTime={this.props.changeTime} />;
+                    changeTime={this.props.changeTime} 
+                    changeTimezone={this.props.changeTimezone} 
+                    />;
     }
 
     render() {
@@ -27,4 +29,4 @@ function mapStateToProps({ meetings }) {
     return { meetings };
 }
 
-export default connect(mapStateToProps, { changePlace, changeTime })(MeetingList);
+export default connect(mapStateToProps, { changePlace, changeTime, changeTimezone })(MeetingList);

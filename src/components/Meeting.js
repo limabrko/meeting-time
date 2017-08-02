@@ -10,7 +10,11 @@ class Meeting extends Component {
                     <Place data={this.props.meetingData} changePlace={this.props.changePlace} />
                 </div>
                 <div className="form-group">
-                    <Date data={this.props.meetingData} changeTime={this.props.changeTime}/>
+                    <Date 
+                        data={this.props.meetingData} 
+                        changeTime={this.props.changeTime}
+                        changeTimezone={this.props.changeTimezone}
+                        />
                 </div>
             </li>
         );

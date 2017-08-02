@@ -10,6 +10,7 @@ class Date extends Component {
         this.onClick = this.onClick.bind(this);
         this.state = {
             time: null,
+            updatingTime: false,
             datepickerShow: false
         };
     }
@@ -44,21 +45,36 @@ class Date extends Component {
                     />;
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data.timezoneOutdated && !this.state.updatingTime) {
+            this.setState({ updatingTime: true });
+            nextProps.changeTimezone(nextProps.data, nextProps.data.place);
+            return;
+        }
+
+        this.setState({ updatingTime: false });
+    }
+
     render() {
-        if (!this.props.data.place) {
+        const { place, localTime } = this.props.data;
+
+        if (!place) {
             return null;
         }
 
-        const timeFormatted = this.props.data.localTime.format();
+        const disabledInput = this.state.updatingTime;
+        const timeFormatted = localTime.format();
 
         return (
             <div>
                 <input 
                     type="text"
-                    className="form-control" 
+                    className="form-control input-lg" 
                     value={timeFormatted} 
                     onClick={this.onClick}
+                    disabled={disabledInput}
                     readOnly/>
+                <span className="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
 
                 { this.renderCalendar() }
             </div>
