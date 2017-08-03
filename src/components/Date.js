@@ -46,7 +46,9 @@ class Date extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data.timezoneOutdated && !this.state.updatingTime) {
+        if (nextProps.data.timezoneOutdated && 
+            nextProps.data.place &&
+            !this.state.updatingTime) {
             this.setState({ updatingTime: true });
             nextProps.changeTimezone(nextProps.data, nextProps.data.place);
             return;

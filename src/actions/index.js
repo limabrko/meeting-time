@@ -5,7 +5,7 @@ export const CHANGE_PLACE = 'CHANGE_PLACE';
 export const CHANGE_TIME = 'CHANGE_TIME';
 export const CHANGE_TIMEZONE = 'CHANGE_TIMEZONE';
 
-const TIMEZONE_API_KEY = 'AIzaSyDyMhR-POhJgql5zGKm-XFGIZU7yJvv8KI';
+const TIMEZONE_API_KEY = 'AIzaSyByEkLOsB5e9YhmsfO9sGkEmw5UcPyxMOQ';
 const TIMEZONE_API_URL = 'https://maps.googleapis.com/maps/api/timezone/json';
 
 export function addMeeting() {
