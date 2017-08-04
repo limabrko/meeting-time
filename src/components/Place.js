@@ -57,19 +57,23 @@ class Place extends Component {
         const { placeholder } = this.props.data;
 
         return (
-            <div>
+            <div className="autocomplete-wrap">
                 <Autocomplete
                     getItemValue={(item) => item.description}
                     items={this.state.suggestions}
                     renderItem={(item, isHighlighted) =>
-                        <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                            {item.description}
+                        <div className={ isHighlighted ? 'autocomplete-item highlighted' : 'autocomplete-item' }>
+                            {item.structured_formatting.main_text}
+                            <div><small>{item.structured_formatting.secondary_text}</small></div>
                         </div>
                     }
                     inputProps={{
                         className: "form-control",
                         placeholder,
                         onBlur: this.verifyPlace
+                    }}
+                    renderMenu={(items, value, style) => { 
+                        return (<div className="autocomplete" children={items}/>)
                     }}
                     value={this.state.value}
                     onChange={this.onPlaceChange}

@@ -69,14 +69,12 @@ class Date extends Component {
 
         return (
             <div>
-                <input 
-                    type="text"
-                    className="form-control input-lg" 
-                    value={timeFormatted} 
-                    onClick={this.onClick}
-                    disabled={disabledInput}
-                    readOnly/>
-                <span className="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                <div className="form-group">
+                    { localTime.format('L') }
+                </div>
+                <div className="form-group">
+                    { localTime.format('HH') }:{ localTime.format('mm') }
+                </div>
 
                 { this.renderCalendar() }
             </div>

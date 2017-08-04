@@ -1,0 +1,30 @@
+.autocomplete-wrap {
+    position: relative;
+}
+
+.autocomplete {
+    background: #17191c;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+}
+
+.autocomplete-item {
+    min-height: 20px;
+    padding: 4px 10px;
+    color: $white;
+    border-left: 3px solid transparent;
+
+    small {
+        color: darken($white, 25%);
+    }
+
+    &.highlighted {
+        color: $brand-success;
+        border-left: 3px solid $gray-light;
+
+        small {
+            color: darken($brand-success, 25%);
+        }
+    }
+}
