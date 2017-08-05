@@ -1,0 +1,5 @@
+.source-control {
+    &.idle {
+        background: lighten($body-bg, 5%);
+    }
+}

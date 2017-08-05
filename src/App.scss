@@ -1,6 +1,11 @@
-@import "styles/bootstrap/variables";
-@import "styles/global";
-@import "styles/components/App";
-@import "styles/components/Autocomplete";
-@import "styles/components/Meeting";
-@import "styles/components/InputMoment/InputMoment";
+@import "../node_modules/bootstrap/scss/mixins";
+
+@import "./styles/bootstrap/variables";
+@import "./styles/global";
+@import "./styles/components/App";
+@import "./styles/components/Source";
+@import "./styles/components/Autocomplete";
+@import "./styles/components/Meeting";
+@import "./styles/components/TimeDisplay";
+@import "./styles/components/Calendar";
+@import "./styles/components/InputMoment/InputMoment";

@@ -1,0 +1,25 @@
+.time-display { 
+    text-align: center;
+    padding: 15px 0 5px;
+    line-height: 1.1;
+
+    .hour-and-minute {
+        color: #fff;
+        font-size: 1.8rem;
+    }
+
+    .box {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    @include media-breakpoint-up(sm) {
+        text-align: right;
+        padding: 0;
+    } 
+}

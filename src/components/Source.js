@@ -151,6 +151,16 @@ class Source extends Component {
 
     render() {
         const { placeholder } = this.props.data;
+        var inputClassNames = [
+            'source-control',
+            'form-control',
+            'form-control-lg'
+        ];
+
+        if (this.state.lastSource && 
+            (this.state.lastSource.description === this.state.value)) {
+            inputClassNames.push('idle');
+        }
 
         return (
             <Autocomplete
@@ -163,7 +173,7 @@ class Source extends Component {
                     </div>
                 }
                 inputProps={{
-                    className: "form-control",
+                    className: inputClassNames.join(' '),
                     placeholder,
                     onBlur: this.onSourceBlur,
                     onFocus: this.onSourceFocus

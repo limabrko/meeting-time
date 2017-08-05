@@ -49,8 +49,28 @@ export function changeSource(oldMeeting, source) {
 }
 
 export function changeTime(oldMeeting, time) {
-    return {
-        type: CHANGE_TIME,
-        payload: { id: oldMeeting.id, time }
-    };
+    var source = oldMeeting.source;
+
+    switch(source.type) {
+        case PLACE:
+        // It is required to get the timezone to calculate a local time of that place
+        const url = `${TIMEZONE_API_URL}?key=${TIMEZONE_API_KEY}&location=${source.original.geometry.location.lat()},${source.original.geometry.location.lng()}&timestamp=${oldMeeting.time.unix()}`;
+
+        return (dispatch) => {
+            axios.get(url)
+                .then((response) => {
+                    source.timezone = response.data;
+
+                    dispatch({
+                        type: CHANGE_TIME,
+                        payload: { id: oldMeeting.id, source, time }
+                    });
+                });
+        };
+        default:
+            return {
+            type: CHANGE_TIME,
+            payload: { id: oldMeeting.id, source, time }
+        };
+    }
 }

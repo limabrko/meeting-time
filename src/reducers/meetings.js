@@ -6,17 +6,10 @@ import {
 import moment from 'moment';
 import { PLACE } from '../components/Source';
 
-const initialTime = moment();
+const initialTime = moment.utc();
 const meetingData = {
-        isPlace: () => {
-            if (!this.source) {
-                return false;
-            }
-            return this.source.type === PLACE;
-        },
         source: null,
         time: initialTime,
-        timezone: null,
         timezoneOutdated: false,
         localTime: null
     };
@@ -37,35 +30,13 @@ function addMeeting(meetings) {
 }
 
 /**
- * Calculate the intial time for meeting based on first source inserted
- * @param {array} meetings 
- */
-function setInitialTimeOnMeetings(meetings) {
-    const currentTime = moment();
-    const meetingsLen = meetings.length;
-    const meetingWithTimezone = meetings.find((meeting) => { return meeting.timezone !== null; });
-
-    const utcTime = currentTime.clone();
-    utcTime.subtract(meetingWithTimezone.timezone.rawOffset, 'seconds');
-    utcTime.subtract(meetingWithTimezone.timezone.dstOffset, 'seconds');
-    
-    for (let i = 0; i < meetingsLen; i++) {
-        meetings[i].time = utcTime;
-
-        if (meetings[i].timezone) {
-            updateMeetingLocalTime(meetings[i]);
-        }
-    }
-}
-
-/**
  * Update a meeting local time with timezone and dst offset
  * @param {object} meeting 
  */
 function updateMeetingLocalTime(meeting) {
-    const localTime = meeting.time.clone();
-    localTime.add(meeting.timezone.rawOffset, 'seconds');
-    localTime.add(meeting.timezone.dstOffset, 'seconds');
+    var localTime = meeting.time.clone();
+    localTime.add(meeting.source.timezone.rawOffset, 'seconds');
+    localTime.add(meeting.source.timezone.dstOffset, 'seconds');
     meeting.localTime = localTime;
 }
 
@@ -92,37 +63,38 @@ export default function(state = initialMeetings, action) {
         case ADD_MEETING:
             return state;
         case CHANGE_SOURCE:
-            const meetingsWithLocalTime = state.filter((meeting) => { return meeting.localTime !== null; });
-
             meetings = state.map((meeting) => {
                 if (meeting.id === action.payload.id) {
                     meeting.source = action.payload.source;
-                    meeting.timezone = meeting.source.timezone;
                     meeting.timezoneOutdated = false;
                     updateMeetingLocalTime(meeting);
                 }
-
                 return meeting;
             });
 
-            if (!meetingsWithLocalTime.length) {
-                setInitialTimeOnMeetings(meetings);
-            }
-
             return meetings;
         case CHANGE_TIME:
-            const meetingReference = state.find((meeting) => { return meeting.id === action.payload.id; });
             const utcTime = action.payload.time.clone();
-            utcTime.subtract(meetingReference.timezone.rawOffset, 'seconds');
-            utcTime.subtract(meetingReference.timezone.dstOffset, 'seconds');
+            utcTime.subtract(action.payload.source.timezone.rawOffset, 'seconds');
+            utcTime.subtract(action.payload.source.timezone.dstOffset, 'seconds');
 
             meetings = state.map((meeting) => {
-                meeting.time = utcTime;
+                meeting.time = utcTime.clone();
 
-                if (meeting.isPlace()) {
+                // The meeting that change time do not need to update timezone
+                if (meeting.id === action.payload.id) {
+                    meeting.source = action.payload.source;
+                    updateMeetingLocalTime(meeting);
+                    return meeting;
+                }
+
+                if (meeting.source && meeting.source.type === PLACE) {
                     meeting.timezoneOutdated = true;
                 }
 
+                if (meeting.source) {
+                    updateMeetingLocalTime(meeting);
+                }
                 return meeting;
             });
 
