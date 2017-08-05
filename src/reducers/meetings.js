@@ -1,14 +1,20 @@
 import { 
         ADD_MEETING, 
-        CHANGE_PLACE, 
-        CHANGE_TIME,
-        CHANGE_TIMEZONE
+        CHANGE_SOURCE, 
+        CHANGE_TIME
     } from '../actions/index';
 import moment from 'moment';
+import { PLACE } from '../components/Source';
 
 const initialTime = moment();
 const meetingData = {
-        place: null,
+        isPlace: () => {
+            if (!this.source) {
+                return false;
+            }
+            return this.source.type === PLACE;
+        },
+        source: null,
         time: initialTime,
         timezone: null,
         timezoneOutdated: false,
@@ -26,22 +32,22 @@ addMeeting(initialMeetings);
 function addMeeting(meetings) {
     var newMeeting = Object.assign({}, meetingData);
     newMeeting.id = meetings.length + 1;
-    newMeeting.placeholder = `Type the city ${newMeeting.id}`;
+    newMeeting.placeholder = `Type a city or timezone ${newMeeting.id}`;
     meetings.push(newMeeting);
 }
 
 /**
- * Calculate the intial time for meeting based on first place inserted
+ * Calculate the intial time for meeting based on first source inserted
  * @param {array} meetings 
  */
 function setInitialTimeOnMeetings(meetings) {
     const currentTime = moment();
     const meetingsLen = meetings.length;
-    const meetingWithPlace = meetings.find((meeting) => { return meeting.place !== null; });
+    const meetingWithTimezone = meetings.find((meeting) => { return meeting.timezone !== null; });
 
     const utcTime = currentTime.clone();
-    utcTime.subtract(meetingWithPlace.timezone.rawOffset, 'seconds');
-    utcTime.subtract(meetingWithPlace.timezone.dstOffset, 'seconds');
+    utcTime.subtract(meetingWithTimezone.timezone.rawOffset, 'seconds');
+    utcTime.subtract(meetingWithTimezone.timezone.dstOffset, 'seconds');
     
     for (let i = 0; i < meetingsLen; i++) {
         meetings[i].time = utcTime;
@@ -85,13 +91,14 @@ export default function(state = initialMeetings, action) {
     switch(action.type) {
         case ADD_MEETING:
             return state;
-        case CHANGE_PLACE:
+        case CHANGE_SOURCE:
             const meetingsWithLocalTime = state.filter((meeting) => { return meeting.localTime !== null; });
 
             meetings = state.map((meeting) => {
                 if (meeting.id === action.payload.id) {
-                    meeting.place = action.payload.place;
-                    meeting.timezone = action.payload.timezone;
+                    meeting.source = action.payload.source;
+                    meeting.timezone = meeting.source.timezone;
+                    meeting.timezoneOutdated = false;
                     updateMeetingLocalTime(meeting);
                 }
 
@@ -111,17 +118,9 @@ export default function(state = initialMeetings, action) {
 
             meetings = state.map((meeting) => {
                 meeting.time = utcTime;
-                meeting.timezoneOutdated = true;
-                return meeting;
-            });
 
-            return meetings;
-        case CHANGE_TIMEZONE:
-            meetings = state.map((meeting) => {
-                if (meeting.id === action.payload.id) {
-                    meeting.timezone = action.payload.timezone;
-                    meeting.timezoneOutdated = false;
-                    updateMeetingLocalTime(meeting);
+                if (meeting.isPlace()) {
+                    meeting.timezoneOutdated = true;
                 }
 
                 return meeting;

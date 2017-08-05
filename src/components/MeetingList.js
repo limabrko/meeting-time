@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Meeting from './Meeting';
-import { changePlace, changeTime, changeTimezone } from '../actions/index';
+import { changeSource, changeTime } from '../actions/index';
 
 class MeetingList extends Component {
     renderMeeting(meetingData) {
         return <Meeting 
                     key={meetingData.id} 
                     meetingData={meetingData} 
-                    changePlace={this.props.changePlace} 
+                    changeSource={this.props.changeSource} 
                     changeTime={this.props.changeTime} 
-                    changeTimezone={this.props.changeTimezone} 
                     />;
     }
 
     render() {
         return (
-            <div>
-                <ul>
+            <div className="meeting">
+                <div className="list-group">
                     {this.props.meetings.map(this.renderMeeting.bind(this))}
-                </ul>
+                </div>
             </div>
         );
     }
@@ -29,4 +28,4 @@ function mapStateToProps({ meetings }) {
     return { meetings };
 }
 
-export default connect(mapStateToProps, { changePlace, changeTime, changeTimezone })(MeetingList);
+export default connect(mapStateToProps, { changeSource, changeTime })(MeetingList);

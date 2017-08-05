@@ -10,7 +10,7 @@ class Date extends Component {
         this.onClick = this.onClick.bind(this);
         this.state = {
             time: null,
-            updatingTime: false,
+            updatingLocalTime: false,
             datepickerShow: false
         };
     }
@@ -47,25 +47,24 @@ class Date extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data.timezoneOutdated && 
-            nextProps.data.place &&
-            !this.state.updatingTime) {
-            this.setState({ updatingTime: true });
-            nextProps.changeTimezone(nextProps.data, nextProps.data.place);
+            nextProps.data.source &&
+            !this.state.updatingLocalTime) {
+            this.setState({ updatingLocalTime: true });
+            nextProps.changeSource(nextProps.data, nextProps.data.source);
             return;
         }
 
-        this.setState({ updatingTime: false });
+        this.setState({ updatingLocalTime: false });
     }
 
     render() {
-        const { place, localTime } = this.props.data;
+        const { localTime } = this.props.data;
 
-        if (!place) {
+        if (!localTime) {
             return null;
         }
 
-        const disabledInput = this.state.updatingTime;
-        const timeFormatted = localTime.format();
+        const disabledInput = this.state.updatingLocalTime;
 
         return (
             <div>

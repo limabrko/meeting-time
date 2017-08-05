@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { PLACE, TIMEZONE } from '../components/Source';
 
 export const ADD_MEETING = 'ADD_MEETING';
-export const CHANGE_PLACE = 'CHANGE_PLACE';
+export const CHANGE_SOURCE = 'CHANGE_SOURCE';
 export const CHANGE_TIME = 'CHANGE_TIME';
-export const CHANGE_TIMEZONE = 'CHANGE_TIMEZONE';
 
 const TIMEZONE_API_KEY = 'AIzaSyByEkLOsB5e9YhmsfO9sGkEmw5UcPyxMOQ';
 const TIMEZONE_API_URL = 'https://maps.googleapis.com/maps/api/timezone/json';
@@ -14,42 +14,43 @@ export function addMeeting() {
     };
 }
 
-export function changePlace(oldMeeting, place) {
-    // It is required to get the timezone to calculate a local time of that place
-    const url = `${TIMEZONE_API_URL}?key=${TIMEZONE_API_KEY}&location=${place.geometry.location.lat()},${place.geometry.location.lng()}&timestamp=${oldMeeting.time.unix()}`;
+export function changeSource(oldMeeting, source) {
+    switch(source.type) {
+        case PLACE:
+            // It is required to get the timezone to calculate a local time of that place
+            const url = `${TIMEZONE_API_URL}?key=${TIMEZONE_API_KEY}&location=${source.original.geometry.location.lat()},${source.original.geometry.location.lng()}&timestamp=${oldMeeting.time.unix()}`;
 
-    return (dispatch) => {
-        axios.get(url)
-            .then((response) => {
-                const timezone = response.data;
+            return (dispatch) => {
+                axios.get(url)
+                    .then((response) => {
+                        source.timezone = response.data;
 
-                dispatch({
-                    type: CHANGE_PLACE,
-                    payload: { id: oldMeeting.id, place, timezone }
-                });
-            });
-    };
+                        dispatch({
+                            type: CHANGE_SOURCE,
+                            payload: { id: oldMeeting.id, source }
+                        });
+                    });
+            };
+        case TIMEZONE:
+            source.timezone = {
+                rawOffset: source.original.rawOffset,
+                dstOffset: source.original.dstOffset
+            };
+            return {
+                type: CHANGE_SOURCE,
+                payload: { id: oldMeeting.id, source }
+            };
+        default:
+            return {
+                type: CHANGE_SOURCE,
+                payload: { id: oldMeeting.id, source }
+            };
+    }
 }
 
 export function changeTime(oldMeeting, time) {
     return {
         type: CHANGE_TIME,
         payload: { id: oldMeeting.id, time }
-    };
-}
-
-export function changeTimezone(oldMeeting, place) {
-    const url = `${TIMEZONE_API_URL}?key=${TIMEZONE_API_KEY}&location=${place.geometry.location.lat()},${place.geometry.location.lng()}&timestamp=${oldMeeting.time.unix()}`;
-
-    return (dispatch) => {
-        axios.get(url)
-            .then((response) => {
-                const timezone = response.data;
-
-                dispatch({
-                    type: CHANGE_TIMEZONE,
-                    payload: { id: oldMeeting.id, timezone }
-                });
-            });
     };
 }

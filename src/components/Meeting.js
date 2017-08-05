@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
-import Place from './Place';
+import Source from './Source';
 import Date from './Date';
 
 class Meeting extends Component {
-    render() {
+    renderDate() {
+        if (!this.props.meetingData.timezone) {
+            return null;
+        }
+
         return (
-            <li className="form-inline">
-                <div className="form-group">
-                    <Place data={this.props.meetingData} changePlace={this.props.changePlace} />
-                </div>
-                <div className="form-group">
+            <div className="form-group">
                     <Date 
                         data={this.props.meetingData} 
                         changeTime={this.props.changeTime}
-                        changeTimezone={this.props.changeTimezone}
+                        changeSource={this.props.changeSource}
+                        />
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div className="list-group-item p-3">
+                <div className="form-group">
+                    <Source 
+                        data={this.props.meetingData} 
+                        changeSource={this.props.changeSource} 
                         />
                 </div>
-            </li>
+                { this.renderDate() }
+            </div>
         );
     }
 }
