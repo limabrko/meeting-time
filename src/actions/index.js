@@ -54,7 +54,7 @@ export function changeTime(oldMeeting, time) {
     switch(source.type) {
         case PLACE:
         // It is required to get the timezone to calculate a local time of that place
-        const url = `${TIMEZONE_API_URL}?key=${TIMEZONE_API_KEY}&location=${source.original.geometry.location.lat()},${source.original.geometry.location.lng()}&timestamp=${oldMeeting.time.unix()}`;
+        const url = `${TIMEZONE_API_URL}?key=${TIMEZONE_API_KEY}&location=${source.original.geometry.location.lat()},${source.original.geometry.location.lng()}&timestamp=${time.unix()}`;
 
         return (dispatch) => {
             axios.get(url)

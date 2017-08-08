@@ -61,7 +61,9 @@ export default function(state = initialMeetings, action) {
 
     switch(action.type) {
         case ADD_MEETING:
-            return state;
+            meetings = state.slice();
+            addMeeting(meetings);
+            return meetings;
         case CHANGE_SOURCE:
             meetings = state.map((meeting) => {
                 if (meeting.id === action.payload.id) {

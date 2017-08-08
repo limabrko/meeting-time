@@ -5,7 +5,7 @@ import TimeDisplay from './TimeDisplay';
 class Meeting extends Component {
     renderTimeDisplay() {
         return (
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-6 meeting-time-display">
                 <TimeDisplay 
                     data={this.props.meetingData} 
                     changeTime={this.props.changeTime}

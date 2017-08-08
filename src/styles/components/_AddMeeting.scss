@@ -1,0 +1,8 @@
+.add-meeting {
+    padding: 10px 20px;
+    text-align: center;
+
+    @include media-breakpoint-up(sm) {
+        text-align: left;
+    } 
+}

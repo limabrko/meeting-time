@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 //Components
 import MeetingList from './MeetingList';
+import AddMeeting from './AddMeeting';
 
 // Styles
 import '../Vendors.css';
@@ -14,6 +15,7 @@ class App extends Component {
         <div className="container">
           <h1 className="app-title">Find the best meeting time</h1>
           <MeetingList />
+          <AddMeeting />
         </div>
       </div>
     );

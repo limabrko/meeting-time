@@ -5,6 +5,7 @@
 	"dependencies": {
 		"axios": "^0.16.2",
 		"bootstrap": "^4.0.0-alpha.6",
+		"font-awesome": "^4.7.0",
 		"input-moment": "^0.3.4",
 		"moment": "^2.18.1",
 		"node-sass-chokidar": "0.0.3",

@@ -112,17 +112,23 @@ class TimeDisplay extends Component {
         }
 
         return (
-            <div className={ componentClassNames.join(' ') }>
-                <div className="box" onClick={this.openDatepicker}>
+            <div className={ componentClassNames.join(' ') } onClick={this.openDatepicker}>
+                <div className="box">
                     <div className="time">
+                        { hasDstOffset ? <i className="fa fa-sun-o" aria-hidden="true"></i> : null }
                         <span className="hour-and-minute">{ time.format('HH') }:{ time.format('mm') }</span>
-                        { hasDstOffset ? <span className="dst-icon"></span> : null }
                     </div>
 
                     <div className="date">
                         { time.format('ddd DD, MMM YYYY') }
                     </div>
                 </div>
+
+                {/* <div className="box-config">
+                    <button className="btn btn-link btn-sm">
+                        <i className="fa fa-cog" aria-hidden="true"></i>
+                    </button>
+                </div> */}
 
                 { this.renderCalendar() }
             </div>
