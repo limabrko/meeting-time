@@ -26,6 +26,15 @@ function addMeeting(meetings) {
     var newMeeting = Object.assign({}, meetingData);
     newMeeting.id = meetings.length + 1;
     newMeeting.placeholder = `Type a city or timezone ${newMeeting.id}`;
+
+    const anotherMeetingWithTime = meetings.find((meeting) => {
+        return meeting.localTime !== null;
+    });
+    if (anotherMeetingWithTime) {
+        newMeeting.time = anotherMeetingWithTime.time.clone();
+        updateMeetingLocalTime(newMeeting);
+    }
+
     meetings.push(newMeeting);
 }
 
