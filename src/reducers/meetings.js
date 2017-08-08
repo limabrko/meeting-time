@@ -32,7 +32,6 @@ function addMeeting(meetings) {
     });
     if (anotherMeetingWithTime) {
         newMeeting.time = anotherMeetingWithTime.time.clone();
-        updateMeetingLocalTime(newMeeting);
     }
 
     meetings.push(newMeeting);
