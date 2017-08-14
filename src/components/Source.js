@@ -151,18 +151,23 @@ class Source extends Component {
 
     render() {
         const { placeholder } = this.props.data;
+        const { lastSource } = this.state;
+
         var inputClassNames = [
             'source-control',
             'form-control',
             'form-control-lg'
         ];
 
-        if (this.state.lastSource && 
-            (this.state.lastSource.description === this.state.value)) {
+        if (lastSource && 
+            (lastSource.description === this.state.value)) {
             inputClassNames.push('idle');
         }
 
+        const hasDstOffset = lastSource && lastSource.timezone ? lastSource.timezone.dstOffset !== 0 : false;
+
         return (
+            <div>
             <Autocomplete
                 getItemValue={(item) => item.description}
                 items={this.state.suggestions}
@@ -189,6 +194,8 @@ class Source extends Component {
                 onChange={this.onSourceChange}
                 onSelect={this.onSourceSelect}
                 />
+                { hasDstOffset ? 'Summer Time' : null }
+            </div>
         );
     }
 }

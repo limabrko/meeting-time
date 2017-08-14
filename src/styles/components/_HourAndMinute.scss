@@ -1,0 +1,39 @@
+.hour-and-minute {
+    text-align: center;
+    height: 51px;
+    font-size: 1.25rem;
+    cursor: ew-resize;
+    position: relative;
+
+    .display {
+        user-select: none;
+    }
+
+    .subtract-minutes, .add-minutes {
+        position: absolute;
+        top: 15px;
+
+        &.disabled {
+            opacity: 0.3;
+        }
+    }
+
+    .subtract-minutes {
+        left: 5px;
+    }
+
+    .add-minutes {
+        right: 5px;
+    }
+
+    &:hover {
+    }
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    @include media-breakpoint-up(sm) {
+    }
+}

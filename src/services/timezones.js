@@ -18,7 +18,6 @@ const TimezoneService = {
 
                     return false;
                 });
-                console.log(matchTimezones);
                 resolve(matchTimezones);
             });
         })

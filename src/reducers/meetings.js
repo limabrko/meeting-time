@@ -1,7 +1,8 @@
 import { 
         ADD_MEETING, 
         CHANGE_SOURCE, 
-        CHANGE_TIME
+        CHANGE_TIME,
+        CHANGE_HOUR_AND_MINUTE
     } from '../actions/index';
 import moment from 'moment';
 import { PLACE } from '../components/Source';
@@ -105,6 +106,20 @@ export default function(state = initialMeetings, action) {
                 if (meeting.source) {
                     updateMeetingLocalTime(meeting);
                 }
+                return meeting;
+            });
+
+            return meetings;
+        case CHANGE_HOUR_AND_MINUTE:
+            meetings = state.map((meeting) => {
+                var newTime = meeting.time.clone();
+                newTime[action.payload.type](action.payload.minutes, 'minutes')
+                meeting.time = newTime;
+
+                if (meeting.localTime) {
+                    updateMeetingLocalTime(meeting);
+                }
+
                 return meeting;
             });
 

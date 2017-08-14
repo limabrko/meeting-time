@@ -4,6 +4,7 @@ import { PLACE, TIMEZONE } from '../components/Source';
 export const ADD_MEETING = 'ADD_MEETING';
 export const CHANGE_SOURCE = 'CHANGE_SOURCE';
 export const CHANGE_TIME = 'CHANGE_TIME';
+export const CHANGE_HOUR_AND_MINUTE = 'CHANGE_HOUR_AND_MINUTE';
 
 const TIMEZONE_API_KEY = 'AIzaSyByEkLOsB5e9YhmsfO9sGkEmw5UcPyxMOQ';
 const TIMEZONE_API_URL = 'https://maps.googleapis.com/maps/api/timezone/json';
@@ -69,8 +70,15 @@ export function changeTime(oldMeeting, time) {
         };
         default:
             return {
-            type: CHANGE_TIME,
-            payload: { id: oldMeeting.id, source, time }
-        };
+                type: CHANGE_TIME,
+                payload: { id: oldMeeting.id, source, time }
+            };
     }
+}
+
+export function changeHourAndMinute(type, minutes) {
+    return {
+        type: CHANGE_HOUR_AND_MINUTE,
+        payload: { type, minutes }
+    };
 }

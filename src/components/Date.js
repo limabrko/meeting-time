@@ -1,46 +1,25 @@
 import React, { Component } from 'react';
 import InputMoment from 'input-moment';
 import Utils from '../services/utils';
+import DatePicker from 'react-datepicker';
 
-class TimeDisplay extends Component {
+import 'react-datepicker/dist/react-datepicker.css';
+
+class Date extends Component {
     constructor(props) {
         super(props);
 
         this.onChange = this.onChange.bind(this);
-        this.onSave = this.onSave.bind(this);
-        this.openDatepicker = this.openDatepicker.bind(this);
-        this.closeDatepicker = this.closeDatepicker.bind(this);
         this.state = {
             time: null,
-            updatingLocalTime: false,
-            datepickerShow: false
+            updatingLocalTime: false
         };
     }
 
-    closeDatepicker() {
-        this.setState({
-            time: this.props.data.localTime.clone(),
-            datepickerShow: false
-        });
-    }
-
     onChange(time) {
+        time.hours(this.state.time.hours()).minutes(this.state.time.minutes());
         this.setState({ time });
-    }
-
-    onSave() {
-        this.setState({datepickerShow: false});
-        this.props.changeTime(this.props.data, this.state.time);
-    }
-
-    openDatepicker() {
-        if (this.state.datepickerShow) {
-            return null;
-        }
-
-        this.setState({
-            datepickerShow: true
-        });
+        this.props.changeTime(this.props.data, time);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -70,7 +49,7 @@ class TimeDisplay extends Component {
         }
 
         return (
-            <div className="calendar">
+            <div className="form-control">
                 <div className="overlay" onClick={this.closeDatepicker}></div>
                 <div 
                     ref={(element) => { this.calendarContent = element; }}
@@ -97,43 +76,31 @@ class TimeDisplay extends Component {
     }
 
     render() {
-        const { localTime, source } = this.props.data;
+        const { localTime } = this.props.data;
         const time = this.state.time;
 
         if (!localTime) {
             return null;
         }
 
-        const hasDstOffset = source.timezone.dstOffset !== 0;
-
-        var componentClassNames = ['time-display'];
+        var componentClassNames = ['form-control', 'form-control-lg', 'date'];
         if (this.state.updatingLocalTime) {
             componentClassNames.push('disabled');
         }
 
         return (
-            <div className={ componentClassNames.join(' ') } onClick={this.openDatepicker}>
-                <div className="box">
-                    <div className="time">
-                        { hasDstOffset ? <i className="fa fa-sun-o" aria-hidden="true"></i> : null }
-                        <span className="hour-and-minute">{ time.format('HH') }:{ time.format('mm') }</span>
-                    </div>
-
-                    <div className="date">
+            <DatePicker
+                customInput={
+                    <div>
                         { time.format('ddd DD, MMM YYYY') }
                     </div>
-                </div>
-
-                {/* <div className="box-config">
-                    <button className="btn btn-link btn-sm">
-                        <i className="fa fa-cog" aria-hidden="true"></i>
-                    </button>
-                </div> */}
-
-                { this.renderCalendar() }
-            </div>
+                }
+                selected={this.state.time}
+                onChange={this.onChange}
+                className={ componentClassNames.join(' ') }
+                />
         );
     }
 }
 
-export default TimeDisplay;
+export default Date;

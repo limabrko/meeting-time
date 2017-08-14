@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
 import Source from './Source';
-import TimeDisplay from './TimeDisplay';
+import Date from './Date';
+import HourAndMinute from './HourAndMinute';
 
 class Meeting extends Component {
     renderTimeDisplay() {
         return (
             <div className="col-12 col-md-6 meeting-time-display">
-                <TimeDisplay 
-                    data={this.props.meetingData} 
-                    changeTime={this.props.changeTime}
-                    changeSource={this.props.changeSource}
-                    />
+                <div className="row">
+                    <div className="col-6 col-md-8">
+                        <Date 
+                            data={this.props.meetingData}
+                            changeTime={this.props.changeTime}
+                            changeSource={this.props.changeSource}
+                            />
+                    </div>
+                    <div className="col-6 col-md-4">
+                        <HourAndMinute 
+                            data={this.props.meetingData} 
+                            changeHourAndMinute={this.props.changeHourAndMinute}
+                            />
+                    </div>
+                </div>
             </div>
         );
     }

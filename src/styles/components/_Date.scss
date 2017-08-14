@@ -1,0 +1,16 @@
+.date {
+    text-align: center;
+    cursor: pointer;
+
+    @include media-breakpoint-up(sm) {
+        text-align: right;
+    }
+}
+
+.react-datepicker-wrapper {
+    display: block;
+
+    .react-datepicker__input-container {
+        display: block;
+    }
+}
