@@ -97,14 +97,20 @@ class Source extends Component {
             }
 
             const placeSuggestions = predictions.map((prediction) => {
-                var details = prediction.structured_formatting.secondary_text;
+                var details = prediction.structured_formatting.secondary_text,
+                    description = prediction.structured_formatting.main_text;
+
+                if (prediction.structured_formatting.secondary_text) {
+                    description = `${description} - ${prediction.structured_formatting.secondary_text}`;
+                }
+                
                 if (!details && prediction.types.indexOf('country') > -1) {
                     details = 'Country';
                 }
 
                 const suggestion = {
                     original: prediction,
-                    description: `${prediction.structured_formatting.main_text} - ${prediction.structured_formatting.secondary_text}`,
+                    description,
                     name: prediction.structured_formatting.main_text,
                     details,
                     type: PLACE
@@ -183,7 +189,11 @@ class Source extends Component {
                     onBlur: this.onSourceBlur,
                     onFocus: this.onSourceFocus
                 }}
-                renderMenu={(items, value, style) => { 
+                renderMenu={(items, value, style) => {
+                    if (!items.length) {
+                        return <div children={items}/>;
+                    }
+
                     return (<div className="autocomplete" children={items}/>)
                 }}
                 wrapperProps={{

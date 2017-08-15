@@ -1,38 +1,28 @@
 import React, { Component } from 'react';
-import Swipeable from 'react-swipeable';
-
-const MINUTES_TO_PASS = 5;
+import Utils from '../services/utils';
 
 class HourAndMinute extends Component {
     constructor(props) {
         super(props);
 
-        this.onSwipeLeft = this.onSwipeLeft.bind(this);
-        this.onSwipeRight = this.onSwipeRight.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.state = {
             time: null,
             updatingLocalTime: false
         };
     }
 
-    onSwipeLeft(e, x, y, isFlick, velocity) {
-        if (this.state.time.hours() === 0 && this.state.time.minutes() === 0 ) {
-            return;
+    onChange(e) {
+        const inputTime = e.target.value.split(':');
+        var newTime = this.state.time.clone();
+        newTime.hours(parseInt(inputTime[0])).minutes(parseInt(inputTime[1]));
+
+        const diff = newTime.diff(this.state.time);
+        const type = diff < 0 ? 'subtract' : 'add';
+
+        if (diff !== 0) {
+            this.props.changeHourAndMinute(type, Math.abs(diff / 60 / 1000));
         }
-
-        const minutesMod = this.state.time.minutes() % MINUTES_TO_PASS;
-        const minutesToSubtract = minutesMod > 0 ? minutesMod : MINUTES_TO_PASS;
-        this.props.changeHourAndMinute('subtract', minutesToSubtract);
-    }
-
-    onSwipeRight() {
-        if (this.state.time.hours() === 23 && this.state.time.minutes() >= (60 - MINUTES_TO_PASS) ) {
-            return;
-        }
-
-        const minutesMod = this.state.time.minutes() % MINUTES_TO_PASS;
-        const minutesToSubtract = minutesMod > 0 ? (MINUTES_TO_PASS - minutesMod) : MINUTES_TO_PASS;
-        this.props.changeHourAndMinute('add', minutesToSubtract);
     }
 
     componentWillReceiveProps() {
@@ -43,7 +33,9 @@ class HourAndMinute extends Component {
     }
 
     componentWillMount() {
-        this.setState({ time: this.props.data.localTime.clone() });
+        this.setState({
+            time: this.props.data.localTime.clone()
+        });
     }
 
     render() {
@@ -59,23 +51,14 @@ class HourAndMinute extends Component {
             componentClassNames.push('disabled');
         }
 
-        const controlClassNames = {
-            subtract: ['fa', 'fa-caret-left', 'subtract-minutes'],
-            add: ['fa', 'fa-caret-right', 'add-minutes']
-        };
-
         return (
-            <Swipeable
-                trackMouse
-                onSwipingLeft={this.onSwipeLeft}
-                onSwipingRight={this.onSwipeRight}
-                >
-                <div className={ componentClassNames.join(' ') }>
-                    <i className={controlClassNames.subtract.join(' ')} aria-hidden="true"></i>
-                    <span className="display" unselectable="on">{ time.format('HH') }:{ time.format('mm') }</span>
-                    <i className={controlClassNames.add.join(' ')} aria-hidden="true"></i>
-                </div>
-            </Swipeable>
+            <input 
+                type="time" 
+                className={ componentClassNames.join(' ') } 
+                onChange={this.onChange} 
+                value={time.format('HH:mm')}
+                required
+                />
         );
     }
 }

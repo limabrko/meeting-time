@@ -2,7 +2,7 @@
     text-align: center;
     
     &.idle {
-        box-shadow: none;
+        color: $brand-info;
 
         &:hover, &:focus {
         }

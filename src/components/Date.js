@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import InputMoment from 'input-moment';
 import Utils from '../services/utils';
 import DatePicker from 'react-datepicker';
 
@@ -41,29 +40,6 @@ class Date extends Component {
 
     componentWillMount() {
         this.setState({ time: this.props.data.localTime.clone() });
-    }
-
-    renderCalendar() { 
-        if (!this.state.datepickerShow) {
-            return null;
-        }
-
-        return (
-            <div className="form-control">
-                <div className="overlay" onClick={this.closeDatepicker}></div>
-                <div 
-                    ref={(element) => { this.calendarContent = element; }}
-                    className="content">
-                    <InputMoment
-                        moment={this.state.time}
-                        onChange={this.onChange}
-                        onSave={this.onSave}
-                        prevMonthIcon="ion-ios-arrow-left"
-                        nextMonthIcon="ion-ios-arrow-right"
-                    />
-                </div>
-            </div>
-        );
     }
 
     componentDidUpdate() {
