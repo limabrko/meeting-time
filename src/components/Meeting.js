@@ -8,14 +8,14 @@ class Meeting extends Component {
         return (
             <div className="col-12 col-md-6 meeting-time-display">
                 <div className="row">
-                    <div className="col-6 col-md-8">
+                    <div className="col-12 col-md-8">
                         <Date 
                             data={this.props.meetingData}
                             changeTime={this.props.changeTime}
                             changeSource={this.props.changeSource}
                             />
                     </div>
-                    <div className="col-6 col-md-4">
+                    <div className="col-12 col-md-4">
                         <HourAndMinute 
                             data={this.props.meetingData} 
                             changeHourAndMinute={this.props.changeHourAndMinute}

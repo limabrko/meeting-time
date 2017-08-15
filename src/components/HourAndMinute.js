@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Utils from '../services/utils';
 
 class HourAndMinute extends Component {
     constructor(props) {
@@ -13,9 +12,10 @@ class HourAndMinute extends Component {
     }
 
     onChange(e) {
+        const radix = 10;
         const inputTime = e.target.value.split(':');
         var newTime = this.state.time.clone();
-        newTime.hours(parseInt(inputTime[0])).minutes(parseInt(inputTime[1]));
+        newTime.hours(parseInt(inputTime[0], radix)).minutes(parseInt(inputTime[1], radix));
 
         const diff = newTime.diff(this.state.time);
         const type = diff < 0 ? 'subtract' : 'add';

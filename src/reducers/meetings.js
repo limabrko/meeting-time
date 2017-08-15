@@ -49,22 +49,6 @@ function updateMeetingLocalTime(meeting) {
     meeting.localTime = localTime;
 }
 
-/**
- * Update every meeting local time
- * @param {array} meetings 
- */
-function updateMeetingsLocalTime(meetings) {
-    const meetingsLen = meetings.length;
-
-    for (let i = 0; i < meetingsLen; i++) {
-        if (!meetings[i].timezone) {
-            continue;
-        }
-
-        updateMeetingLocalTime(meetings[i]);
-    }
-}
-
 export default function(state = initialMeetings, action) {
     var meetings;
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Utils from '../services/utils';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -40,15 +39,6 @@ class Date extends Component {
 
     componentWillMount() {
         this.setState({ time: this.props.data.localTime.clone() });
-    }
-
-    componentDidUpdate() {
-        if (this.calendarContent) {
-            const windowHeight = window.innerHeight;
-            const calendarHeight = this.calendarContent.clientHeight;
-            const calendarMarginTop = (windowHeight - calendarHeight) / 2;
-            this.calendarContent.style.marginTop = `${calendarMarginTop}px`;
-        }
     }
 
     render() {
