@@ -46,19 +46,22 @@ class HourAndMinute extends Component {
             return null;
         }
 
-        var componentClassNames = ['form-control', 'form-control-lg', 'hour-and-minute'];
+        var componentClassNames = ['form-control', 'form-control-lg', 'HourAndMinute'];
         if (this.state.updatingLocalTime) {
             componentClassNames.push('disabled');
         }
 
         return (
-            <input 
-                type="time" 
-                className={ componentClassNames.join(' ') } 
-                onChange={this.onChange} 
-                value={time.format('HH:mm')}
-                required
-                />
+            <div>
+                <label>Time</label>
+                <input 
+                    type="time" 
+                    className={ componentClassNames.join(' ') } 
+                    onChange={this.onChange} 
+                    value={time.format('HH:mm')}
+                    required
+                    />
+            </div>
         );
     }
 }

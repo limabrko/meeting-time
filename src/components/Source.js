@@ -19,7 +19,8 @@ class Source extends Component {
         this.state = {
             value: '',
             suggestions: [],
-            lastSource: null
+            lastSource: null,
+            edit: true
         };
     }
 
@@ -57,7 +58,8 @@ class Source extends Component {
             self.props.changeSource(self.props.data, suggestion);
             self.setState({ 
                 value: suggestion.original.formatted_address,
-                lastSource: suggestion
+                lastSource: suggestion,
+                edit: false
             });
         });
     }
@@ -65,7 +67,8 @@ class Source extends Component {
     selectTimezone(suggestion) {
         this.setState({ 
                 value: suggestion.description,
-                lastSource: suggestion
+                lastSource: suggestion,
+                edit: false
             });
         this.props.changeSource(this.props.data, suggestion);
     }
@@ -155,10 +158,13 @@ class Source extends Component {
         event.target.select();
     }
 
-    render() {
+    renderAutocomplete() {
+        if (!this.state.edit) {
+            return null;
+        }
+
         const { placeholder } = this.props.data;
         const { lastSource } = this.state;
-
         var inputClassNames = [
             'source-control',
             'form-control',
@@ -170,41 +176,79 @@ class Source extends Component {
             inputClassNames.push('idle');
         }
 
-        const hasDstOffset = lastSource && lastSource.timezone ? lastSource.timezone.dstOffset !== 0 : false;
+        var UneditBtn = null;
+        if (lastSource) {
+            UneditBtn = (<button className="btn btn-sm btn-link" onClick={() => { this.setState({edit: false}); }}>
+                    <i className="fa fa-angle-left" aria-hidden="true"></i> Return
+                </button>);
+        }
 
         return (
             <div>
-            <Autocomplete
-                getItemValue={(item) => item.description}
-                items={this.state.suggestions}
-                renderItem={(item, isHighlighted) =>
-                    <div className={ isHighlighted ? 'autocomplete-item highlighted' : 'autocomplete-item' }>
-                        {item.name}
-                        <div><small>{item.details}</small></div>
-                    </div>
-                }
-                inputProps={{
-                    className: inputClassNames.join(' '),
-                    placeholder,
-                    onBlur: this.onSourceBlur,
-                    onFocus: this.onSourceFocus
-                }}
-                renderMenu={(items, value, style) => {
-                    if (!items.length) {
-                        return <div children={items}/>;
+                <Autocomplete
+                    getItemValue={(item) => item.description}
+                    items={this.state.suggestions}
+                    renderItem={(item, isHighlighted) =>
+                        <div className={ isHighlighted ? 'autocomplete-item highlighted' : 'autocomplete-item' }>
+                            {item.name}
+                            <div><small>{item.details}</small></div>
+                        </div>
                     }
+                    inputProps={{
+                        className: inputClassNames.join(' '),
+                        placeholder,
+                        onBlur: this.onSourceBlur,
+                        onFocus: this.onSourceFocus
+                    }}
+                    renderMenu={(items, value, style) => {
+                        if (!items.length) {
+                            return <div children={items}/>;
+                        }
 
-                    return (<div className="autocomplete" children={items}/>)
-                }}
-                wrapperProps={{
-                    className: 'autocomplete-wrap'
-                }}
-                wrapperStyle={{}}
-                value={this.state.value}
-                onChange={this.onSourceChange}
-                onSelect={this.onSourceSelect}
-                />
-                { hasDstOffset ? 'Summer Time' : null }
+                        return (<div className="autocomplete" children={items}/>)
+                    }}
+                    wrapperProps={{
+                        className: 'autocomplete-wrap'
+                    }}
+                    wrapperStyle={{}}
+                    value={this.state.value}
+                    onChange={this.onSourceChange}
+                    onSelect={this.onSourceSelect}
+                    />
+                    { UneditBtn }
+            </div>
+            );
+    }
+
+    renderPlaceDisplay() {
+        if (this.state.edit) {
+            return null;
+        }
+
+        const { lastSource } = this.state;
+        const hasDstOffset = lastSource && lastSource.timezone ? lastSource.timezone.dstOffset !== 0 : false;
+
+        return (
+            <div 
+                className="place-display" 
+                onClick={() => { this.setState({edit: true}); }}>
+
+                <div className="name">
+                    {lastSource.name} 
+                    <i className="fa fa-pencil-square-o d-none d-sm-inline-block" aria-hidden="true"></i>
+                </div>
+                <div className="details">
+                    {lastSource.details}{ hasDstOffset ? ' (Summer Time)' : null } <i className="fa fa-pencil-square-o d-sm-none" aria-hidden="true"></i>
+                </div>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div className="Source">
+                { this.renderAutocomplete() }
+                { this.renderPlaceDisplay() }
             </div>
         );
     }

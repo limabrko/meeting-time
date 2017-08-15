@@ -11,7 +11,7 @@ import '../App.css';
 class App extends Component {
   render() {
     return (
-      <div className="app">
+      <div className="App">
         <div className="container">
           <h1 className="app-title">Find the best meeting time</h1>
           <MeetingList />

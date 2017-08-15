@@ -1,10 +1,7 @@
-.hour-and-minute {
+.HourAndMinute {
     text-align: center;
     height: 51px;
     font-size: 1.25rem;
-
-    &:hover {
-    }
 
     &.disabled {
         pointer-events: none;

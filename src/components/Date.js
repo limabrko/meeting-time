@@ -49,22 +49,25 @@ class Date extends Component {
             return null;
         }
 
-        var componentClassNames = ['form-control', 'form-control-lg', 'date'];
+        var componentClassNames = ['form-control', 'form-control-lg', 'Date'];
         if (this.state.updatingLocalTime) {
             componentClassNames.push('disabled');
         }
 
         return (
-            <DatePicker
-                customInput={
-                    <div>
-                        { time.format('ddd DD, MMM YYYY') }
-                    </div>
-                }
-                selected={this.state.time}
-                onChange={this.onChange}
-                className={ componentClassNames.join(' ') }
-                />
+            <div>
+                <label>Date</label>
+                <DatePicker
+                    customInput={
+                        <div>
+                            { time.format('ddd DD, MMM YYYY') }
+                        </div>
+                    }
+                    selected={this.state.time}
+                    onChange={this.onChange}
+                    className={ componentClassNames.join(' ') }
+                    />
+            </div>
         );
     }
 }
