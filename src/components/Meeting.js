@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Source from './Source';
 import Date from './Date';
 import HourAndMinute from './HourAndMinute';
+import MeetingTimeDisplay from './MeetingTimeDisplay';
 
 class Meeting extends Component {
     constructor(props) {
@@ -12,39 +13,45 @@ class Meeting extends Component {
         };
     }
 
+    renderWorktime() {
+        if (this.props.meetingData.isWorktime) {
+            return null;
+        }
+
+        return (
+            <div className="col-12 worktime-box">
+                <div className="alert alert-danger">
+                    { `This time is out of working time` }
+                </div>
+            </div>
+        );
+    }
+
     renderTimeDisplay() {
         if (!this.state.editDate) {
-            return (
-                <div className="col-12 col-md-6 meeting-time-display">
-                    <div className="time-box" onClick={() => { this.setState({editDate: true}); }}>
-                        <div className="hour-and-minute">
-                            <i className="fa fa-pencil-square-o d-none d-sm-inline-block" aria-hidden="true"></i>
-                            { this.props.meetingData.localTime.format('HH:mm') }
-                        </div>
-                        <div className="date">
-                            { this.props.meetingData.localTime.format('ddd DD, MMM YYYY') } <i className="fa fa-pencil-square-o d-sm-none" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-            );
+            return <MeetingTimeDisplay 
+                        meetingData={this.props.meetingData}
+                        onClick={() => { this.setState({editDate: true}); }} 
+                        />;
         }
 
         return (
             <div className="col-12 col-md-6 meeting-time-edit">
                 <div className="row">
-                    <div className="col-12 col-md-8">
+                    <div className="col-12 col-md-6">
                         <Date 
                             data={this.props.meetingData}
                             changeTime={this.props.changeTime}
                             changeSource={this.props.changeSource}
                             />
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-6">
                         <HourAndMinute 
                             data={this.props.meetingData} 
                             changeHourAndMinute={this.props.changeHourAndMinute}
                             />
                     </div>
+                    { this.renderWorktime() }
                     <div className="col-12 btn-return">
                         <button className="btn btn-sm btn-link" onClick={() => { this.setState({editDate: false}); }}>
                             Apply <i className="fa fa-angle-right" aria-hidden="true"></i>

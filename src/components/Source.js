@@ -163,7 +163,7 @@ class Source extends Component {
             return null;
         }
 
-        const { placeholder } = this.props.data;
+        const { placeholder, id } = this.props.data;
         const { lastSource } = this.state;
         var inputClassNames = [
             'source-control',
@@ -176,15 +176,19 @@ class Source extends Component {
             inputClassNames.push('idle');
         }
 
-        var UneditBtn = null;
+        var UneditBtn = null,
+            Label = null;
+
         if (lastSource) {
+            Label = <label htmlFor={`source_${id}`}>{ placeholder }</label>;
             UneditBtn = (<button className="btn btn-sm btn-link" onClick={() => { this.setState({edit: false}); }}>
                     <i className="fa fa-angle-left" aria-hidden="true"></i> Return
                 </button>);
         }
 
         return (
-            <div>
+            <div className="place-edit">
+                { Label }
                 <Autocomplete
                     getItemValue={(item) => item.description}
                     items={this.state.suggestions}
@@ -195,6 +199,7 @@ class Source extends Component {
                         </div>
                     }
                     inputProps={{
+                        id: `source_${id}`,
                         className: inputClassNames.join(' '),
                         placeholder,
                         onBlur: this.onSourceBlur,
@@ -235,10 +240,9 @@ class Source extends Component {
 
                 <div className="name">
                     {lastSource.name} 
-                    <i className="fa fa-pencil-square-o d-none d-sm-inline-block" aria-hidden="true"></i>
                 </div>
                 <div className="details">
-                    {lastSource.details}{ hasDstOffset ? ' (Summer Time)' : null } <i className="fa fa-pencil-square-o d-sm-none" aria-hidden="true"></i>
+                    {lastSource.details}{ hasDstOffset ? ' (Summer Time)' : null } <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </div>
             </div>
         );

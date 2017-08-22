@@ -12,7 +12,10 @@ const meetingData = {
         source: null,
         time: initialTime,
         timezoneOutdated: false,
-        localTime: null
+        localTime: null,
+        startWorktime: 540,
+        endWorktime: 1080,
+        isWorktime: null
     };
 
 const initialMeetings = [];
@@ -39,6 +42,22 @@ function addMeeting(meetings) {
 }
 
 /**
+ * Verify if localtime is on worktime
+ * @param {object} meeting 
+ */
+function verifyWorktime(meeting) {
+    meeting.isWorktime = false;
+    const minutes = meeting.localTime.minutes();
+    const hoursMinutes = meeting.localTime.hours() * 60;
+    const dayMinutes = minutes + hoursMinutes;
+
+    if (dayMinutes >= meeting.startWorktime && 
+        dayMinutes <= meeting.endWorktime) {
+        meeting.isWorktime = true;
+    }
+}
+
+/**
  * Update a meeting local time with timezone and dst offset
  * @param {object} meeting 
  */
@@ -47,6 +66,8 @@ function updateMeetingLocalTime(meeting) {
     localTime.add(meeting.source.timezone.rawOffset, 'seconds');
     localTime.add(meeting.source.timezone.dstOffset, 'seconds');
     meeting.localTime = localTime;
+
+    verifyWorktime(meeting);
 }
 
 export default function(state = initialMeetings, action) {

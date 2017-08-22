@@ -12,22 +12,22 @@
         i {
             margin-left: 5px;
         }
-    }
-    
-    .name {
-        font-size: 1.6rem;
-        color: $brand-info;
 
-        .btn {
+        .name {
+            font-size: 1.6rem;
+            color: $brand-info;
+    
+            .btn {
+                color: $gray-lighter;
+                margin-left: 5px;
+            }
+        }
+    
+        .details {
             color: $gray-lighter;
-            margin-left: 5px;
         }
     }
-
-    .details {
-        color: $gray-lighter;
-    }
-
+    
     @include media-breakpoint-up(sm) {
         .place-display {
             display: inline-block;
@@ -36,8 +36,6 @@
 
             i {
                 color: $gray-lighter;
-                margin-right: 10px;
-                font-size: 1.2rem;
             }
         }
     }

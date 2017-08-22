@@ -1,0 +1,47 @@
+.MeetingTimeDisplay {
+    text-align: center;
+    line-height: 1.2;
+    padding: 10px 0 5px;
+
+    .time-box {
+        cursor: pointer;
+        display: inline-block;
+
+        i {
+            margin-right: 5px;
+        }
+    }
+
+    .hour-and-minute {
+        font-size: 1.6rem;
+        color: $brand-danger;
+    }
+
+    .date {
+        color: $gray-lighter;
+    }
+
+    .worktime-display {
+        width: 10px;
+        height: 10px;
+        background: $brand-danger;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    &.worktime {
+        .hour-and-minute {
+            color: $brand-success;
+        }
+
+        .worktime-display {
+            background: $brand-success;
+        }
+    }
+
+    @include media-breakpoint-up(sm) {
+        text-align: right;
+        padding: 0 35px 0 0;
+    }
+}

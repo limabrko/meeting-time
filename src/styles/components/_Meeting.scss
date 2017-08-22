@@ -21,41 +21,8 @@
             padding: 0 35px 0 0;
         }
     }
-    
-    .meeting-time-display {
-        text-align: center;
-        line-height: 1.2;
-        padding: 10px 0 5px;
-    
-        .time-box {
-            cursor: pointer;
-            display: inline-block;
-    
-            i {
-                margin-right: 5px;
-            }
-        }
-        
-        .hour-and-minute {
-            font-size: 1.6rem;
-            color: $brand-info;
-        }
-    
-        .date {
-            color: $gray-lighter;
-        }
-    
-        @include media-breakpoint-up(sm) {
-            text-align: right;
-            padding: 0 35px 0 0;
-    
-            .time-box {
-                i {
-                    color: $gray-lighter;
-                    margin-right: 10px;
-                    font-size: 1.2rem;
-                }
-            }
-        }
+
+    .worktime-box {
+        padding-top: 10px;
     }
 }
