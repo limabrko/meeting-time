@@ -1,10 +1,6 @@
 .Source {
     line-height: 1.2;
 
-    .btn {
-        color: $brand-info;
-    }
-
     .place-display {
         text-align: center;
         cursor: pointer;
@@ -26,6 +22,10 @@
         .details {
             color: $gray-lighter;
         }
+    }
+
+    .actions-box {
+        padding-top: 10px;
     }
     
     @include media-breakpoint-up(sm) {

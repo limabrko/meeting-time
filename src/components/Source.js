@@ -92,6 +92,10 @@ class Source extends Component {
     }
 
     matchGoogleAutocompletePlaces(value) {
+        if (!window.google) {
+            return false;
+        }
+
         const self = this;
         const GoogleAutocompleteService = new google.maps.places.AutocompleteService();
         GoogleAutocompleteService.getPlacePredictions({ input: value }, (predictions, status) => {
@@ -176,14 +180,18 @@ class Source extends Component {
             inputClassNames.push('idle');
         }
 
-        var UneditBtn = null,
+        var ReturnBtn = null,
             Label = null;
 
         if (lastSource) {
             Label = <label htmlFor={`source_${id}`}>{ placeholder }</label>;
-            UneditBtn = (<button className="btn btn-sm btn-link" onClick={() => { this.setState({edit: false}); }}>
-                    <i className="fa fa-angle-left" aria-hidden="true"></i> Return
-                </button>);
+            ReturnBtn = (
+                <div className="actions-box">
+                    <button className="btn btn-sm btn-success" onClick={() => { this.setState({edit: false}); }}>
+                        <i className="fa fa-angle-left" aria-hidden="true"></i> Return
+                    </button>
+                </div>
+            );
         }
 
         return (
@@ -220,7 +228,7 @@ class Source extends Component {
                     onChange={this.onSourceChange}
                     onSelect={this.onSourceSelect}
                     />
-                    { UneditBtn }
+                    { ReturnBtn }
             </div>
             );
     }

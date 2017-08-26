@@ -5,10 +5,14 @@
         padding: 25px 15px 15px;
     
         .btn {
-            color: $brand-info;
+            margin-left: 5px;
+        }
+
+        .alert {
+            margin: 0;
         }
     
-        .btn-return {
+        .actions-box {
             text-align: right;
         }
     
@@ -24,5 +28,6 @@
 
     .worktime-box {
         padding-top: 10px;
+        padding-bottom: 10px;
     }
 }

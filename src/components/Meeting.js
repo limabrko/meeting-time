@@ -3,28 +3,17 @@ import Source from './Source';
 import Date from './Date';
 import HourAndMinute from './HourAndMinute';
 import MeetingTimeDisplay from './MeetingTimeDisplay';
+import WorktimeAlert from './WorktimeAlert';
+import WorktimeConfig from './WorktimeConfig';
 
 class Meeting extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            editDate: false
+            editDate: false,
+            editWorktime: false
         };
-    }
-
-    renderWorktime() {
-        if (this.props.meetingData.isWorktime) {
-            return null;
-        }
-
-        return (
-            <div className="col-12 worktime-box">
-                <div className="alert alert-danger">
-                    { `This time is out of working time` }
-                </div>
-            </div>
-        );
     }
 
     renderTimeDisplay() {
@@ -51,10 +40,17 @@ class Meeting extends Component {
                             changeHourAndMinute={this.props.changeHourAndMinute}
                             />
                     </div>
-                    { this.renderWorktime() }
-                    <div className="col-12 btn-return">
-                        <button className="btn btn-sm btn-link" onClick={() => { this.setState({editDate: false}); }}>
-                            Apply <i className="fa fa-angle-right" aria-hidden="true"></i>
+                    <div className="col-12 worktime-box">
+                        <WorktimeAlert data={this.props.meetingData}/>
+                        <WorktimeConfig data={this.props.meetingData} changeWorktime={this.props.changeWorktime} show={this.state.editWorktime}/>
+                    </div>
+                    <div className="col-12 actions-box">
+                        <button className="btn btn-sm btn-info" onClick={() => { this.setState({editWorktime: !this.state.editWorktime}); }}>
+                            <i className="fa fa-cog" aria-hidden="true"></i> Change worktime
+                        </button>
+
+                        <button className="btn btn-sm btn-success" onClick={() => { this.setState({editDate: false, editWorktime: false}); }}>
+                            <i className="fa fa-check" aria-hidden="true"></i> Apply
                         </button>
                     </div>
                 </div>

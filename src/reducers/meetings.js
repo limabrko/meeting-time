@@ -2,7 +2,8 @@ import {
         ADD_MEETING, 
         CHANGE_SOURCE, 
         CHANGE_TIME,
-        CHANGE_HOUR_AND_MINUTE
+        CHANGE_HOUR_AND_MINUTE,
+        CHANGE_WORKTIME
     } from '../actions/index';
 import moment from 'moment';
 import { PLACE } from '../components/Source';
@@ -123,6 +124,32 @@ export default function(state = initialMeetings, action) {
 
                 if (meeting.localTime) {
                     updateMeetingLocalTime(meeting);
+                }
+
+                return meeting;
+            });
+
+            return meetings;
+        case CHANGE_WORKTIME:
+            meetings = state.map((meeting) => {
+                if (meeting.id === action.payload.id) {
+                    // const oppositeType = action.payload.type === 'startWorktime' ? 'endWorktime' : 'startWorktime';
+                    // var oppositeMinutes = meeting[oppositeType];
+                    // var minutes = action.payload.minutes;
+
+                    meeting[action.payload.type] = action.payload.minutes;
+
+                    // Start cannot be higher than end and vice-versa
+                    // if (oppositeType === 'startWorktime') {
+                    //     minutes = (1440 - minutes);
+                    //     oppositeMinutes = (1440 - oppositeMinutes);
+                    // }
+
+                    // if (minutes > oppositeMinutes) {
+                    //     meeting[action.payload.type] = meeting[oppositeType];
+                    // }
+
+                    verifyWorktime(meeting);
                 }
 
                 return meeting;
