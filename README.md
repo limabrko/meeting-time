@@ -2,7 +2,7 @@ This project was developed using React and Redux
 
 ## A tool to find the best meeting time among regions
 
-[Demo](http://bird-633.getforge.io/)
+[Demo](http://lima-meeting-time.getforge.io/)
 
 ### Built with
 - React
