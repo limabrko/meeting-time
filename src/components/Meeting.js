@@ -42,7 +42,13 @@ class Meeting extends Component {
                     </div>
                     <div className="col-12 worktime-box">
                         <WorktimeAlert data={this.props.meetingData}/>
-                        <WorktimeConfig data={this.props.meetingData} changeWorktime={this.props.changeWorktime} show={this.state.editWorktime}/>
+                        <WorktimeConfig 
+                            data={this.props.meetingData} 
+                            changeWeekendWorktime={this.props.changeWeekendWorktime} 
+                            changeWorktime={this.props.changeWorktime} 
+                            workOnWeekend={this.props.workOnWeekend}
+                            show={this.state.editWorktime}
+                            />
                     </div>
                     <div className="col-12 actions-box">
                         <button className="btn btn-sm btn-info" onClick={() => { this.setState({editWorktime: !this.state.editWorktime}); }}>

@@ -3,7 +3,8 @@ import {
         CHANGE_SOURCE, 
         CHANGE_TIME,
         CHANGE_HOUR_AND_MINUTE,
-        CHANGE_WORKTIME
+        CHANGE_WORKTIME,
+        CHANGE_WEEKEND_WORKTIME
     } from '../actions/index';
 import moment from 'moment';
 import { PLACE } from '../components/Source';
@@ -16,6 +17,7 @@ const meetingData = {
         localTime: null,
         startWorktime: 540,
         endWorktime: 1080,
+        workOnWeekend: false,
         isWorktime: null
     };
 
@@ -51,6 +53,12 @@ function verifyWorktime(meeting) {
     const minutes = meeting.localTime.minutes();
     const hoursMinutes = meeting.localTime.hours() * 60;
     const dayMinutes = minutes + hoursMinutes;
+    const weekDay = meeting.localTime.weekday();
+
+    if (!meeting.workOnWeekend && weekDay === 0 ||
+        !meeting.workOnWeekend && weekDay === 6) {
+        return;
+    }
 
     if (dayMinutes >= meeting.startWorktime && 
         dayMinutes <= meeting.endWorktime) {
@@ -133,22 +141,18 @@ export default function(state = initialMeetings, action) {
         case CHANGE_WORKTIME:
             meetings = state.map((meeting) => {
                 if (meeting.id === action.payload.id) {
-                    // const oppositeType = action.payload.type === 'startWorktime' ? 'endWorktime' : 'startWorktime';
-                    // var oppositeMinutes = meeting[oppositeType];
-                    // var minutes = action.payload.minutes;
-
                     meeting[action.payload.type] = action.payload.minutes;
+                    verifyWorktime(meeting);
+                }
 
-                    // Start cannot be higher than end and vice-versa
-                    // if (oppositeType === 'startWorktime') {
-                    //     minutes = (1440 - minutes);
-                    //     oppositeMinutes = (1440 - oppositeMinutes);
-                    // }
+                return meeting;
+            });
 
-                    // if (minutes > oppositeMinutes) {
-                    //     meeting[action.payload.type] = meeting[oppositeType];
-                    // }
-
+            return meetings;
+        case CHANGE_WEEKEND_WORKTIME:
+            meetings = state.map((meeting) => {
+                if (meeting.id === action.payload.id) {
+                    meeting.workOnWeekend = action.payload.status;
                     verifyWorktime(meeting);
                 }
 

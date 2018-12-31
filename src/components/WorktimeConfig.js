@@ -7,6 +7,7 @@ class WorktimeConfig extends Component {
 
         this.onStartWorktimeChange = this.onStartWorktimeChange.bind(this);
         this.onEndWorktimeChange = this.onEndWorktimeChange.bind(this);
+        this.onWeekendChange = this.onWeekendChange.bind(this);
     }
 
     onStartWorktimeChange(event) {
@@ -17,8 +18,12 @@ class WorktimeConfig extends Component {
         this.props.changeWorktime(this.props.data.id, 'endWorktime', convertHHmmToMinutes(event.target.value));
     }
 
+    onWeekendChange(event) {
+        this.props.changeWeekendWorktime(this.props.data.id, event.target.checked);
+    }
+
     render() {
-        const { startWorktime, endWorktime } = this.props.data;
+        const { startWorktime, endWorktime, workOnWeekend } = this.props.data;
         
         if (!this.props.show) {
             return null;
@@ -46,7 +51,19 @@ class WorktimeConfig extends Component {
                         required
                         />
                 </div>
-                
+                <div className="col-12 weekend-config">
+                    <div className="form-check">
+                        <label className="form-check-label" htmlFor="weekend_config_switch">
+                        <input
+                            type="checkbox"
+                            id="weekend_config_switch"
+                            className="form-check-input"
+                            onChange={this.onWeekendChange}
+                            checked={workOnWeekend}
+                            /> Work on weekend
+                        </label>
+                    </div>
+                </div>
             </div>
         );
     }

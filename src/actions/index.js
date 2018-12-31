@@ -6,6 +6,7 @@ export const CHANGE_SOURCE = 'CHANGE_SOURCE';
 export const CHANGE_TIME = 'CHANGE_TIME';
 export const CHANGE_HOUR_AND_MINUTE = 'CHANGE_HOUR_AND_MINUTE';
 export const CHANGE_WORKTIME = 'CHANGE_WORKTIME';
+export const CHANGE_WEEKEND_WORKTIME = 'CHANGE_WEEKEND_WORKTIME';
 
 const TIMEZONE_API_KEY = 'AIzaSyByEkLOsB5e9YhmsfO9sGkEmw5UcPyxMOQ';
 const TIMEZONE_API_URL = 'https://maps.googleapis.com/maps/api/timezone/json';
@@ -89,4 +90,11 @@ export function changeWorktime(id, type, minutes) {
         type: CHANGE_WORKTIME,
         payload: { id, type, minutes }
     };
+}
+
+export function changeWeekendWorktime(id, status) {
+    return {
+        type: CHANGE_WEEKEND_WORKTIME,
+        payload: { id, status }
+    }
 }

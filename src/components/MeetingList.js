@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Meeting from './Meeting';
-import { changeSource, changeTime, changeHourAndMinute, changeWorktime } from '../actions/index';
+import { changeSource, changeTime, changeHourAndMinute, changeWorktime, changeWeekendWorktime } from '../actions/index';
 
 class MeetingList extends Component {
     renderMeeting(meetingData) {
@@ -12,6 +12,7 @@ class MeetingList extends Component {
                     changeTime={this.props.changeTime} 
                     changeHourAndMinute={this.props.changeHourAndMinute}
                     changeWorktime={this.props.changeWorktime}
+                    changeWeekendWorktime={this.props.changeWeekendWorktime}
                     />;
     }
 
@@ -30,4 +31,11 @@ function mapStateToProps({ meetings }) {
     return { meetings };
 }
 
-export default connect(mapStateToProps, { changeSource, changeTime, changeHourAndMinute, changeWorktime })(MeetingList);
+export default connect(mapStateToProps, 
+    { 
+        changeSource, 
+        changeTime, 
+        changeHourAndMinute, 
+        changeWorktime,
+        changeWeekendWorktime
+    })(MeetingList);
