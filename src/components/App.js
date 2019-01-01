@@ -5,8 +5,8 @@ import MeetingList from './MeetingList';
 import AddMeeting from './AddMeeting';
 
 // Styles
-import '../Vendors.css';
-import '../App.css';
+import '../Vendors.scss';
+import '../App.scss';
 
 class App extends Component {
     render() {

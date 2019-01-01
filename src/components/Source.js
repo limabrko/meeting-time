@@ -66,10 +66,10 @@ class Source extends Component {
 
     selectTimezone(suggestion) {
         this.setState({ 
-                value: suggestion.description,
-                lastSource: suggestion,
-                edit: false
-            });
+            value: suggestion.description,
+            lastSource: suggestion,
+            edit: false
+        });
         this.props.changeSource(this.props.data, suggestion);
     }
 
@@ -79,6 +79,7 @@ class Source extends Component {
             .then((predictions) => {
                 const timezoneSuggestions = predictions.map((prediction) => {
                     const suggestion = {
+                        id: prediction.abbr,
                         original: prediction,
                         description: `${prediction.name} - ${prediction.abbr}`,
                         name: prediction.name,
@@ -116,6 +117,7 @@ class Source extends Component {
                 }
 
                 const suggestion = {
+                    id: prediction.id,
                     original: prediction,
                     description,
                     name: prediction.structured_formatting.main_text,
@@ -198,10 +200,11 @@ class Source extends Component {
             <div className="place-edit">
                 { Label }
                 <Autocomplete
-                    getItemValue={(item) => item.description}
+                    getItemValue={(item) => item.id}
                     items={this.state.suggestions}
                     renderItem={(item, isHighlighted) =>
-                        <div className={ isHighlighted ? 'autocomplete-item highlighted' : 'autocomplete-item' }>
+                        <div className={ isHighlighted ? 'autocomplete-item highlighted' : 'autocomplete-item' }
+                            key={item.id}>
                             {item.name}
                             <div><small>{item.details}</small></div>
                         </div>

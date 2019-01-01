@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -14,10 +15,11 @@ class Date extends Component {
         };
     }
 
-    onChange(time) {
-        time.hours(this.state.time.hours()).minutes(this.state.time.minutes());
-        this.setState({ time });
-        this.props.changeTime(this.props.data, time);
+    onChange(selectedDate) {
+        var newDate = moment(selectedDate);
+        newDate.hours(this.state.time.hours()).minutes(this.state.time.minutes());
+        this.setState({ time: newDate });
+        this.props.changeTime(this.props.data, newDate);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,7 +65,7 @@ class Date extends Component {
                             { time.format('ddd DD, MMM YYYY') }
                         </div>
                     }
-                    selected={this.state.time}
+                    selected={this.state.time.toDate()}
                     onChange={this.onChange}
                     className={ componentClassNames.join(' ') }
                     />

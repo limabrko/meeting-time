@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 class MeetingTimeDisplay extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         var componentClassNames = ['MeetingTimeDisplay', 'col-12', 'col-md-6'],
             titleWorktime = "This time is out of worktime";

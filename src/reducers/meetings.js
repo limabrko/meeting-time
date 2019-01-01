@@ -55,8 +55,8 @@ function verifyWorktime(meeting) {
     const dayMinutes = minutes + hoursMinutes;
     const weekDay = meeting.localTime.weekday();
 
-    if (!meeting.workOnWeekend && weekDay === 0 ||
-        !meeting.workOnWeekend && weekDay === 6) {
+    if ((!meeting.workOnWeekend && weekDay === 0) ||
+        (!meeting.workOnWeekend && weekDay === 6)) {
         return;
     }
 
