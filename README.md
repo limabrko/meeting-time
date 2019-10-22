@@ -1,25 +1,14 @@
-This project was developed using React and Redux
+# meeting-time
 
-## A tool to find the best meeting time among regions
+> A tool to find the best meeting time among regions
 
+## Demo
 [Demo](https://fill-lima.github.io/meeting-time/)
 
-### Built with
-- React
-- Redux
-- Google Maps API
-- Google Timezone API
-- Input Moment
-- MomentJS
-- Bootstrap4
-
-Soon new topics...
-
-- [How to install](#comming-soon)
-- [How to run](#comming-soon)
-- [How to build](#comming-soon)
-- [How to test](#comming-soon)
-
-## Comming soon
-
-...
+## Built with
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/)
+- [Google Maps API](https://developers.google.com/maps/documentation)
+- [Google Timezone API](https://developers.google.com/maps/documentation/timezone)
+- [MomentJS](https://momentjs.com/)
+- [Bootstrap4](https://getbootstrap.com/)
