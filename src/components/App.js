@@ -18,7 +18,7 @@ class App extends Component {
                     <AddMeeting />
 
                     <footer>
-                        Made by <a href="https://www.linkedin.com/in/aboutfelipelima/">Felipe Lima</a> | <a href="https://github.com/fill-lima/meeting-time">Github</a>
+                        Made by <a href="https://www.linkedin.com/in/aboutfelipelima/">Felipe Lima</a> | <a href="https://github.com/lima-space/meeting-time">Github</a>
                     </footer>
                 </div>
             </div>

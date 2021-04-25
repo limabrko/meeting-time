@@ -117,7 +117,7 @@ class Source extends Component {
                 }
 
                 const suggestion = {
-                    id: prediction.id,
+                    id: prediction.place_id,
                     original: prediction,
                     description,
                     name: prediction.structured_formatting.main_text,
