@@ -3,7 +3,7 @@
 > A tool to find the best meeting time among regions
 
 ## Demo
-[Demo](https://lima-space.github.io/meeting-time/)
+[Demo](https://limabrko.github.io/meeting-time/)
 
 
 ## Development
